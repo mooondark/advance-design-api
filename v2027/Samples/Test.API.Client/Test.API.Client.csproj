@@ -9,8 +9,15 @@
     <OutputPath>..\..\..\ServerX64\bin\</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <_ApiServerBinPath Condition="'$(AD_API_SERVER_BINARY_PATH)' != ''">$(AD_API_SERVER_BINARY_PATH)</_ApiServerBinPath>
+    <_ApiServerBinPath Condition="'$(AD_API_SERVER_BINARY_PATH)' == ''">..\..\..\ServerX64\bin\</_ApiServerBinPath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AD.API.ClientHost\AD.API.Client.csproj" />
+    <Reference Include="AD.API.Client">
+      <HintPath>$(_ApiServerBinPath)AD.API.Client.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
