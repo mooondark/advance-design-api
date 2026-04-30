@@ -54,6 +54,7 @@ namespace Test.API.Client
 			  ("Planar Wall With Linear Support And Results",                                                    c => Sample_PlanarWallWithLinearSupportAndResults(c)),
 			  ("Planar Support With Planar Element And Results",                                                 c => Sample_PlanarSupportWithPlanarElementAndResults(c)),
         ("Pylon climatic                                ",                                                 c => Sample_PylonElectricityStructureAndClimaticGeneration(c)),
+        ("Planar Wall With Openings (holes test)",                                                       c => Sample_PlanarWallWithOpenings(c)),
         
       };
 

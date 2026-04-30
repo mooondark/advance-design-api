@@ -39,7 +39,7 @@
                     "$ref": "#/components/schemas/MaterialOther"
                   }
                 ],
-                "description": "Base class for all material objects"
+                "description": "Base class for all material objects. Requires the `$type` discriminator when serialized for the API."
               }
             },
             "text/json": {
@@ -67,7 +67,7 @@
                     "$ref": "#/components/schemas/MaterialOther"
                   }
                 ],
-                "description": "Base class for all material objects"
+                "description": "Base class for all material objects. Requires the `$type` discriminator when serialized for the API."
               }
             },
             "application/*+json": {
@@ -95,7 +95,7 @@
                     "$ref": "#/components/schemas/MaterialOther"
                   }
                 ],
-                "description": "Base class for all material objects"
+                "description": "Base class for all material objects. Requires the `$type` discriminator when serialized for the API."
               }
             }
           }
@@ -2338,13 +2338,10 @@
             "default": 1
           },
           "windDesign": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/WindDesign_WindIBC_API"
-              }
-            ],
-            "description": "Wind design method\r\n\r\nUnit: -\r\n\r\nDefault: GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING",
-            "default": "GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING"
+            "type": "integer",
+            "description": "Wind design method\r\n\r\nUnit: -\r\n\r\nDefault: 0 for chapter 28 ENVELOPPE_LOW_RISE_BUIILDING ; 1 for scaffolding",
+            "format": "int32",
+            "default": 0
           },
           "torsionalLoadCases": {
             "type": "boolean",
@@ -3667,9 +3664,9 @@
           "$type": {
             "type": "string"
           },
-          "userName": {
+          "userID": {
             "type": "integer",
-            "description": "user name of the element used for additional identification",
+            "description": "user ID used on UI of the element used for additional identification. It's different from the internal ID (EID) which is used for internal reference and is not exposed to the interface. The UserID is intended to be used by the client application for display purposes. It's managed by the application.",
             "format": "int32"
           }
         },
@@ -4639,6 +4636,17 @@
                 ],
                 "description": "Mesh properties\r\n\r\nDefault value : optional nullable object",
                 "nullable": true
+              },
+              "openings": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/pt3D"
+                  }
+                },
+                "description": "List of openings (holes) in the planar element.\r\n\r\nEach opening is defined by a list of 3D points (in global coordinates) forming a closed polygon.\r\n\r\nOnly interior openings are allowed — openings on the edge of the planar element will be rejected.\r\n\r\nDefault value: null (no openings)",
+                "nullable": true
               }
             },
             "additionalProperties": false
@@ -5007,7 +5015,7 @@
           "ElementAdvancedPlanarSupport"
         ],
         "type": "string",
-        "description": "<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - ElementBase</b>: </li>\r\n<li><b>1 - ElementLinear</b>: </li>\r\n<li><b>2 - ElementPlanar</b>: </li>\r\n<li><b>3 - ElementLoadArea</b>: </li>\r\n<li><b>4 - ElementMass</b>: </li>\r\n<li><b>5 - ElementLoadPunctual</b>: </li>\r\n<li><b>6 - ElementLoadLinear</b>: </li>\r\n<li><b>7 - ElementLoadPlanar</b>: </li>\r\n<li><b>8 - ElementImposedDisplacement</b>: </li>\r\n<li><b>9 - ElementRigidPunctualSupport</b>: </li>\r\n<li><b>10 - ElementElasticPunctualSupport</b>: </li>\r\n<li><b>11 - ElementTCPunctualSupport</b>: </li>\r\n<li><b>12 - ElementAdvancedPunctualSupport</b>: </li>\r\n<li><b>13 - ElementSinglePile</b>: </li>\r\n<li><b>14 - ElementRigidLinearSupport</b>: </li>\r\n<li><b>15 - ElementElasticLinearSupport</b>: </li>\r\n<li><b>16 - ElementTCLinearSupport</b>: </li>\r\n<li><b>17 - ElementAdvancedLinearSupport</b>: </li>\r\n<li><b>18 - ElementRigidPlanarSupport</b>: </li>\r\n<li><b>19 - ElementElasticPlanarSupport</b>: </li>\r\n<li><b>20 - ElementTCPlanarSupport</b>: </li>\r\n<li><b>21 - ElementAdvancedPlanarSupport</b>: </li>\r\n</ul>\r\n"
+        "description": "<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - ElementBase</b>: none structural object element</li>\r\n<li><b>1 - ElementLinear</b>: linear element</li>\r\n<li><b>2 - ElementPlanar</b>: planar element</li>\r\n<li><b>3 - ElementLoadArea</b>: area load element</li>\r\n<li><b>4 - ElementMass</b>: mass element</li>\r\n<li><b>5 - ElementLoadPunctual</b>: punctual load element</li>\r\n<li><b>6 - ElementLoadLinear</b>: linear load element</li>\r\n<li><b>7 - ElementLoadPlanar</b>: planar load element</li>\r\n<li><b>8 - ElementImposedDisplacement</b>: Imposed displacement element</li>\r\n<li><b>9 - ElementRigidPunctualSupport</b>: Rigid punctual support</li>\r\n<li><b>10 - ElementElasticPunctualSupport</b>: Elastic punctual support</li>\r\n<li><b>11 - ElementTCPunctualSupport</b>: Traction Compession punctual support</li>\r\n<li><b>12 - ElementAdvancedPunctualSupport</b>: </li>\r\n<li><b>13 - ElementSinglePile</b>: Single pile element</li>\r\n<li><b>14 - ElementRigidLinearSupport</b>: Rigid linear support</li>\r\n<li><b>15 - ElementElasticLinearSupport</b>: Elastic linear support</li>\r\n<li><b>16 - ElementTCLinearSupport</b>: TC linear support</li>\r\n<li><b>17 - ElementAdvancedLinearSupport</b>: Advanced linear support</li>\r\n<li><b>18 - ElementRigidPlanarSupport</b>: Rigid planar support</li>\r\n<li><b>19 - ElementElasticPlanarSupport</b>: Elastic planar support</li>\r\n<li><b>20 - ElementTCPlanarSupport</b>: TC planar support</li>\r\n<li><b>21 - ElementAdvancedPlanarSupport</b>: Advanced planar support</li>\r\n</ul>\r\n"
       },
       "Environments": {
         "type": "object",
@@ -6429,9 +6437,9 @@
           "$type": {
             "type": "string"
           },
-          "userName": {
+          "userID": {
             "type": "integer",
-            "description": "user name of the element used for additional identification",
+            "description": "user ID of the element used for additional identification on the UI. It's different than the internal ID (EID) which is used for internal reference and is not exposed to the interface. The ID is intended to be used by the client application for display purposes.",
             "format": "int32"
           }
         },
@@ -8896,60 +8904,27 @@
         "description": "Defines the verbosity level for engine log output in API responses.<p>Possible values:</p>\r\n<ul>\r\n<li><b>1 - Errors</b>: Level 1: Only errors are included in the API response diagnostics.</li>\r\n<li><b>2 - ErrorsAndWarnings</b>: Level 2: Errors and warnings are included in the API response diagnostics.</li>\r\n<li><b>3 - AllDetails</b>: Level 3: All details (errors, warnings, and informational messages) are included.</li>\r\n</ul>\r\n"
       },
       "Material": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/MaterialBase"
-          },
-          {
-            "required": [
-              "$type",
-              "name"
-            ],
-            "type": "object",
-            "properties": {
-              "$type": {
-                "type": "string"
-              },
-              "name": {
-                "minLength": 1,
-                "type": "string",
-                "description": "Material name\r\n\r\nDefault value: empty string",
-                "default": ""
-              }
-            },
-            "additionalProperties": false,
-            "discriminator": {
-              "propertyName": "$type",
-              "mapping": {
-                "Material": "#/components/schemas/Material",
-                "MaterialSteel": "#/components/schemas/MaterialSteel",
-                "MaterialReinforcedConcrete": "#/components/schemas/MaterialReinforcedConcrete",
-                "MaterialWood": "#/components/schemas/MaterialWood",
-                "MaterialWoodNorthAmerica": "#/components/schemas/MaterialWoodNorthAmerica",
-                "MaterialRigid": "#/components/schemas/MaterialRigid",
-                "MaterialOther": "#/components/schemas/MaterialOther"
-              }
-            }
-          }
-        ],
-        "description": "Base class for all material objects"
-      },
-      "MaterialBase": {
         "required": [
-          "$type"
+          "$type",
+          "name"
         ],
         "type": "object",
         "properties": {
           "$type": {
             "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Material name\r\n\r\nDefault value: empty string",
+            "default": ""
           }
         },
         "additionalProperties": false,
-        "description": "base class for informational objects : load cases, load cases families, etc.",
+        "description": "Base class for all material objects. Requires the `$type` discriminator when serialized for the API.",
         "discriminator": {
           "propertyName": "$type",
           "mapping": {
-            "MaterialBase": "#/components/schemas/MaterialBase",
             "Material": "#/components/schemas/Material",
             "MaterialSteel": "#/components/schemas/MaterialSteel",
             "MaterialReinforcedConcrete": "#/components/schemas/MaterialReinforcedConcrete",
@@ -10473,7 +10448,7 @@
             "additionalProperties": false
           }
         ],
-        "description": "Query definition for informational load case elements by family."
+        "description": "Query definition to extract the list of loads that are on a specific case (CaseFamilyId)."
       },
       "QueryInfoModel": {
         "allOf": [
@@ -12741,14 +12716,6 @@
         ],
         "type": "string",
         "description": "Wind 2D positioning zone for Wind EN 1991-1-4<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - eWind2DPositioningZoneEC1_A_F_G</b>: </li>\r\n<li><b>1 - eWind2DPositioningZoneEC1_A_H</b>: </li>\r\n<li><b>2 - eWind2DPositioningZoneEC1_B_H</b>: </li>\r\n<li><b>3 - eWind2DPositioningZoneEC1_B_I</b>: </li>\r\n<li><b>4 - eWind2DPositioningZoneEC1_C_I</b>: </li>\r\n</ul>\r\n"
-      },
-      "WindDesign_WindIBC_API": {
-        "enum": [
-          "GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING",
-          "GRCG_WIND_IBC_METHOD_DIRECTIONAL_OPEN_BUIILDING_LATTICE_AND_TRUSSED_TOWERS"
-        ],
-        "type": "string",
-        "description": "Wind design method for Wind IBC/ASCE 7-22<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING</b>: </li>\r\n<li><b>1 - GRCG_WIND_IBC_METHOD_DIRECTIONAL_OPEN_BUIILDING_LATTICE_AND_TRUSSED_TOWERS</b>: </li>\r\n</ul>\r\n"
       },
       "WindDirection_Wind_EN1991_1_4_API": {
         "enum": [

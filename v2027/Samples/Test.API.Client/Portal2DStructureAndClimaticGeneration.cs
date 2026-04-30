@@ -200,7 +200,7 @@ namespace Test.API.Client
             Ke = 1.0,
             DGust = 0.85,
             Ri = 1.0,
-            WindDesign = WindDesign_WindIBC_API.GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING,
+            WindDesign = 0,//WindDesign_WindIBC_API.GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING,
             TorsionalLoadCases = false,
             HeightOfStructureBase = 0.0
           }
@@ -618,7 +618,7 @@ namespace Test.API.Client
             Ke = 1.0,
             DGust = 0.85,
             Ri = 1.0,
-            WindDesign = WindDesign_WindIBC_API.GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING,
+            WindDesign = 0,//WindDesign_WindIBC_API.GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING,
             TorsionalLoadCases = false,
             HeightOfStructureBase = 0.0
           }
