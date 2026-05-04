@@ -4316,6 +4316,11 @@
                 ],
                 "description": "Load variation.\r\n\r\nDefault value : optional nullable object",
                 "nullable": true
+              },
+              "userComment": {
+                "type": "string",
+                "description": "User comment for the load element.\r\n\r\nDefault value : null",
+                "nullable": true
               }
             },
             "additionalProperties": false
@@ -4397,6 +4402,11 @@
                   }
                 ],
                 "description": "Load variation.\r\n\r\nDefault value : optional nullable object",
+                "nullable": true
+              },
+              "userComment": {
+                "type": "string",
+                "description": "User comment for the load element.\r\n\r\nDefault value : null",
                 "nullable": true
               }
             },
@@ -4489,6 +4499,11 @@
                   }
                 ],
                 "description": "Punching object properties.\r\n\r\nDefault value : optional nullable object",
+                "nullable": true
+              },
+              "userComment": {
+                "type": "string",
+                "description": "User comment for the load element.\r\n\r\nDefault value : null",
                 "nullable": true
               }
             },

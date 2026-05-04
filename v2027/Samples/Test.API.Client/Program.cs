@@ -217,7 +217,8 @@ namespace Test.API.Client
         Console.WriteLine($"        [PunctualLoad] Pt=({ptLoad.GeomPt.X}, {ptLoad.GeomPt.Y}, {ptLoad.GeomPt.Z})" + "\n\t\t\t" +
           $" LoadCase={ptLoad.LoadCase?.Value}" + $" CoordinateSystemType={ptLoad.CoordinateSystemType}" + "\n\t\t\t" +
           $" F=({ptLoad.Fx}, {ptLoad.Fy}, {ptLoad.Fz})" + "\n\t\t\t" +
-          (ptLoad.Moment != null ? $" M=({ptLoad.Moment.Mx}, {ptLoad.Moment.My}, {ptLoad.Moment.Mz})" : ""));
+          (ptLoad.Moment != null ? $" M=({ptLoad.Moment.Mx}, {ptLoad.Moment.My}, {ptLoad.Moment.Mz})" : "") +
+          (ptLoad.UserComment != null ? $"\n\t\t\t UserComment={ptLoad.UserComment}" : ""));
       }
       else if (elementToPrint is ElementLoadLinear linLoad)
       {
@@ -225,7 +226,8 @@ namespace Test.API.Client
           $" End=({linLoad.GeomPtEnd.X}, {linLoad.GeomPtEnd.Y}, {linLoad.GeomPtEnd.Z})" + "\n\t\t\t" +
           $" LoadCase={linLoad.LoadCase?.Value}" + $" CoordinateSystemType={linLoad.CoordinateSystemType}" + "\n\t\t\t" +
           $" F=({linLoad.Fx}, {linLoad.Fy}, {linLoad.Fz})" + "\n\t\t\t" +
-          (linLoad.Variation != null ? $" Var=({linLoad.Variation.Coefficient1}, {linLoad.Variation.Coefficient2})" : ""));
+          (linLoad.Variation != null ? $" Var=({linLoad.Variation.Coefficient1}, {linLoad.Variation.Coefficient2})" : "") +
+          (linLoad.UserComment != null ? $"\n\t\t\t UserComment={linLoad.UserComment}" : ""));
       }
       else if (elementToPrint is ElementLoadPlanar planarLoad)
       {
@@ -235,7 +237,8 @@ namespace Test.API.Client
         Console.WriteLine($"        [PlanarLoad] Pts=[{pts}]" + "\n\t\t\t" +
           $" LoadCase={planarLoad.LoadCase?.Value}" + $" CoordinateSystemType={planarLoad.CoordinateSystemType}" + "\n\t\t\t" +
           $" F=({planarLoad.Fx}, {planarLoad.Fy}, {planarLoad.Fz})" + "\n\t\t\t" +
-          (planarLoad.Variation != null ? $" Var=({planarLoad.Variation.Coefficient1}, {planarLoad.Variation.Coefficient2}, {planarLoad.Variation.Coefficient3})" : ""));
+          (planarLoad.Variation != null ? $" Var=({planarLoad.Variation.Coefficient1}, {planarLoad.Variation.Coefficient2}, {planarLoad.Variation.Coefficient3})" : "") +
+          (planarLoad.UserComment != null ? $"\n\t\t\t UserComment={planarLoad.UserComment}" : ""));
       }
     }
 

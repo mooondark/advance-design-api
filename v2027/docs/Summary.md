@@ -2,7 +2,7 @@
 
 > **Source:** `swagger.json` (OpenAPI 3.0.4)  
 > **Main tag:** `Model`  
-> **Base path:** `/api/Model/`
+> **Base path:** `/api/Model/`  
 
 ---
 
@@ -152,7 +152,8 @@ Loads are created via `CreateElement` using the following types:
 
 **Seismic IBC (`LoadCaseFamily_SeismicIBC`):**
 - Ss, S1, site class (A–F), occupancy category (I–IV)
-- Factors Fa, Fv, transition periods T0, Ts, TL
+- Factors Fa, Fv, transition periods T0, Ts, TL (with calculated spectral accelerations SaT0, SaTS, SaTL)
+- Per-case: structural type (`StructureTypeIBC`), ductility factors R/Cd (`DuctilityFactorsIBC`)
 - Combination methods: SRSS, CQC, ABS + residual mode
 
 **Wind EN 1991-1-4:**
@@ -162,9 +163,10 @@ Loads are created via `CreateElement` using the following types:
 - Greenhouse-specific parameters (EN 13031-1)
 
 **Seismic EN 1998-1:**
-- Spectrum type (elastic/design type 1/2), ag×?I, soil class (A–E)
-- Periods Tb, Tc, Td, topographic amplification ST
-- Ductility factor q (calculated or imposed), ductility class (LOW/MEDIUM/HIGH)
+- Spectrum type (`SPECTRE_ELASTIC_1`, `SPECTRE_DESIGN_1`, `SPECTRE_ELASTIC_2`, `SPECTRE_DESIGN_2`), ag×γI, soil class (A–E)
+- Periods Tb, Tc, Td; correction factor β
+- Ductility factor q (`Q_CALCULATED` or `Q_IMPOSE`), ductility class (`LOW`/`MEDIUM`/`HIGH`)
+- Direction choice: `X`, `Y`, `Z`, `XY`; sign: `UNSIGNED`, `SIGNED_PREPONDERANT_MODE`, `SIGNED_SELECTED_MODE`
 
 ### 6.3 Combinations
 

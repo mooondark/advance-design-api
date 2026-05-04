@@ -859,6 +859,7 @@ Linear distributed load applied along a line.
 | `Fz` | `double` | ✓ | Force along Z (kN/m) |
 | `Moment` | `MomentComponents` | — | Moment components (kN·m/m) |
 | `Variation` | `LinearVariation` | — | Trapezoidal variation coefficients |
+| `UserComment` | `string` | — | User comment (max 250 characters) |
 
 ### `ElementLoadPlanar`
 
@@ -872,6 +873,7 @@ Surface distributed load applied over a polygon.
 | `Fx`, `Fy`, `Fz` | `double` | ✓ | Force per unit area (kN/m²) |
 | `Moment` | `MomentComponents` | — | |
 | `Variation` | `PlanarVariation` | — | Variation over 3 points |
+| `UserComment` | `string` | — | User comment (max 250 characters) |
 
 ### `ElementLoadPunctual`
 
@@ -886,6 +888,7 @@ Point load applied at a node.
 | `Moment` | `MomentComponents` | — | Moment components (kN·m) |
 | `ImpactingSurface` | `ImpactingSurface` | — | Punching impact surface |
 | `Punching` | `PunchingProperties` | — | Punching shear parameters |
+| `UserComment` | `string` | — | User comment (max 250 characters) |
 
 ### `ElementImposedDisplacement`
 
@@ -1043,17 +1046,35 @@ var seisCase = new LoadCase_SeismicEN_1998_1
     LoadCaseFamilyID = new EID { Value = seismicFamilyId },
     Direction = new DirectionConfigEN1998
     {
-        DirectionChoice = DirectionChoiceEN1998_API.X_Direction,
-        SignChoice      = SignChoice_API.Positive,
+        DirectionChoice = DirectionChoiceEN1998_API.X,
+        SignChoice      = SignChoice_API.SIGNED_PREPONDERANT_MODE,
         Mode            = 1
     },
     Ductility = new DuctilityConfigEN1998
     {
-        DuctilityDetermination = DuctilityDeterminationEN1998_API.Auto,
+        DuctilityDetermination = DuctilityDeterminationEN1998_API.Q_IMPOSE,
         DuctilityCoefficient   = 1.0
     }
 };
 ```
+
+#### `LoadCase_SeismicCBN` (key properties)
+
+| Property | Type | Description |
+|---|---|---|
+| `Direction` | `DirectionSeismicCBN` | Direction parameters (choice, sign, mode) |
+| `StructureType` | `StructureTypeSeismicCBN` | Structural system type and SFRS configuration |
+| `DirectionVector` | `DirectionVectorSeismicCBN` | Direction vector components |
+| `DuctilityFactors` | `DuctilityFactorsCBN` | Ductility factors (Rd, Ro, calibration) |
+
+#### `LoadCase_SeismicIBC` (key properties)
+
+| Property | Type | Description |
+|---|---|---|
+| `Direction` | `DirectionSeismicIBC` | Direction parameters |
+| `StructureType` | `StructureTypeIBC` | Structural system type and SFRS configuration |
+| `DirectionVector` | `DirectionVectorIBC` | Direction vector components |
+| `DuctilityFactors` | `DuctilityFactorsIBC` | Ductility factors (R, Cd, calibration) |
 
 #### `LoadCase_DeadLoads` (example)
 
@@ -1272,7 +1293,7 @@ In addition to `ResNodes`, these include resultant torsor components:
 | `Ke` | 1.0 | — | Ground elevation factor |
 | `DGust` | 0.85 | — | Gust effect factor |
 | `Ri` | 1.0 | — | Reduction factor |
-| `WindDesign` | `GRCG_WIND_IBC_METHOD_ENVELOPPE_LOW_RISE_BUIILDING` | — | Design method |
+| `WindDesign` | 0 | — | Design method |
 | `TorsionalLoadCases` | `false` | — | Generate torsional cases |
 | `HeightOfStructureBase` | 0.0 | m | Height of base |
 
@@ -1357,14 +1378,16 @@ In addition to `ResNodes`, these include resultant torsor components:
 
 #### `StructureSeismicEN1998`
 
-| Property | Description |
-|---|---|
-| `ImportanceCategory` | Importance class (I–IV) |
-| `CoefGammaI` | Importance factor γI |
-| `CoefQHoriz` | Behaviour factor q (horizontal X) |
-| `CoefQHorizY` | Behaviour factor q (horizontal Y) |
-| `CoefQVert` | Behaviour factor q (vertical) |
-| `DuctilityClass` | DCL / DCM / DCH |
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `ImportanceCategory` | `ImportanceCategoryEN1998_API` | `CAT_II` | Importance class (`CAT_I`…`CAT_IV`) |
+| `CoefGammaI` | `double` | 1.0 | Importance factor γI |
+| `CoefQHoriz` | `double` | 1.5 | Behaviour factor q (horizontal X) |
+| `CoefQHorizY` | `double` | 1.5 | Behaviour factor q (horizontal Y) |
+| `CoefQVert` | `double` | 1.5 | Behaviour factor q (vertical) |
+| `Correction` | `bool` | `false` | Apply lower-bound correction (factor β) |
+| `CoefBeta` | `double` | 0.2 | Lower-bound factor β |
+| `DuctilityClass` | `DuctilityClassEN1998_API` | `MEDIUM` | Ductility class (`LOW` / `MEDIUM` / `HIGH`) |
 
 #### `CalculationMethodEN1998`
 
@@ -1379,17 +1402,41 @@ In addition to `ResNodes`, these include resultant torsor components:
 
 #### `ImplantationSeismicCBN`
 
-Key properties: `Sa02`, `Sa05`, `Sa10`, `Sa20`, `Sa50`, `Sa100`, `Pga`, `SiteClass`, `Fa`, `Fv`, `IeFaSa02`, `SeismicCategory`, `ImportanceFactorIE`.
+Key properties: `Sa02`, `Sa05`, `Sa10`, `Sa20`, `Sa50` *(CBN 2015/2020 only)*, `Sa100` *(CBN 2015/2020 only)*, `Pga` *(CBN 2015/2020 only)*, `Sa02_X450` *(CBN 2020 only)*, `Sa05_X450` *(CBN 2020 only)*, `Sa10_X450` *(CBN 2020 only)*, `Sa20_X450` *(CBN 2020 only)*, `IeS10` *(CBN 2020 only)*, `SiteClass`, `Fa`, `Fv`, `IeFaSa02`, `SeismicCategory` *(CBN 2020 only)*, `ImportanceFactorIE`.
 
 #### `StructureSeismicCBN`
 
-| Property | Description |
-|---|---|
-| `TotalHeight` | Total structure height (m) |
-| `FloorsNo` | Number of floors |
-| `RegularStructure` | Regularity flag |
-| `AccidentalTorsion` | Accidental torsion percentage |
-| `ApplyDuctilityEffects` | Enable ductility effects |
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `TotalHeight` | `double` | 0.0 | Total structure height (m) |
+| `FloorsNo` | `int` | 0 | Number of floors |
+| `RegularStructure` | `bool` | `true` | Regularity flag |
+| `SfsrCheck` | `bool` | `false` | SFSR check flag |
+| `AccidentalTorsion` | `double` | 0.0 | Accidental torsion (dimensionless) |
+| `ApplyDuctilityEffects` | `bool` | `true` | Enable ductility effects |
+
+#### `StructureTypeSeismicCBN`
+
+Defines the structural system type and SFRS material for the seismic CBN load case.
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `TypeStructure` | `TypeStructure_API` | `StructureResistMomentFrame` | Structural system type |
+| `TypeSRFS` | `MaterialSRFS_API` | `Concrete` | SFRS material type |
+| `SfrsConcrete` | `SFRSConcrete_API` | `DuctileMomentResistingFrame` | Concrete SFRS type |
+| `SfrsSteel` | `SFRSSteel_API` | `DuctileMomentResistingFrame` | Steel SFRS type |
+| `SfrsMasonry` | `SFRSMasonry_API` | `DuctileShearWall` | Masonry SFRS type |
+| `SfrsTimber` | `SFRSTimber_API` | `DuctileShearWall` | Timber SFRS type |
+
+#### `DuctilityFactorsCBN`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Calibration` | `bool` | `true` | Calibration flag |
+| `Torsion` | `bool` | `false` | Torsion consideration flag |
+| `Rd` | `double` | 1.0 | Ductility-related force modification factor Rd |
+| `Ro` | `double` | 1.0 | Overstrength-related force modification factor Ro |
+| `L` | `double` | 0.0 | L parameter — CBN 2015/2020 only |
 
 ---
 
@@ -1397,11 +1444,33 @@ Key properties: `Sa02`, `Sa05`, `Sa10`, `Sa20`, `Sa50`, `Sa100`, `Pga`, `SiteCla
 
 #### `ImplantationSeismicIBC`
 
-Key properties: `Ss`, `S1`, `T0`, `Ts`, `Tl`, `SiteClass`, `Fa`, `Fv`, `OccupancyCategory`.
+Key properties: `Ss`, `S1`, `T0`, `SaT0` *(calculated)*, `Ts`, `SaTS` *(calculated)*, `Tl`, `SaTL` *(calculated)*, `SiteClass`, `Fa`, `Fv`, `OccupancyCategory`.
 
 #### `StructureSeismicIBC`
 
-Same structure as CBN but without `ApplyDuctilityEffects`.
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `TotalHeight` | `double` | 0.0 | Total structure height (m) |
+| `FloorsNo` | `int` | 0 | Number of floors |
+| `RegularStructure` | `bool` | `true` | Regularity flag |
+| `SfsrCheck` | `bool` | `false` | SFRS check flag |
+| `AccidentalTorsion` | `double` | 0.0 | Accidental torsion (dimensionless) |
+
+#### `StructureTypeIBC`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `TypeStructure` | `TypeStructureIBC_API` | `StructureResistMomentFrame` | Structural system type |
+| `TypeSRFS` | `int` | 0 | SFRS material type index (material-based) |
+
+#### `DuctilityFactorsIBC`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `Calibration` | `bool` | `true` | Calibration flag |
+| `Torsion` | `bool` | `true` | Torsion consideration flag |
+| `R` | `double` | 0 *(calc. from SFRS)* | Response modification coefficient |
+| `Cd` | `double` | 0 *(calc. from SFRS)* | Deflection amplification factor |
 
 ---
 
@@ -1472,6 +1541,39 @@ Used in `QueryInfoModel` to filter informational element queries:
 
 ### `InternalPressure_Wind_EN1991_1_4_API`
 `POSITIVE` · `NEGATIVE`
+
+### `SpectrumType_API`
+`SPECTRE_ELASTIC_1` · `SPECTRE_DESIGN_1` · `SPECTRE_ELASTIC_2` · `SPECTRE_DESIGN_2`
+
+### `ImportanceCategoryEN1998_API`
+`CAT_I` · `CAT_II` · `CAT_III` · `CAT_IV`
+
+### `DuctilityDeterminationEN1998_API`
+`Q_CALCULATED` · `Q_IMPOSE`
+
+### `DuctilityClassEN1998_API`
+`LOW` · `MEDIUM` · `HIGH`
+
+### `DirectionChoice_API` / `DirectionChoiceEN1998_API`
+`X` · `Y` · `Z` · `XY`
+
+### `SignChoice_API`
+`UNSIGNED` · `SIGNED_PREPONDERANT_MODE` · `SIGNED_SELECTED_MODE`
+
+### `TypeStructure_API` / `TypeStructureIBC_API`
+`StructureResistMomentFrame` · `StructureResistShearWall` · `StructureResistBracedFrame` · `StructureResistDualSystem` · `StructureResistOther`
+
+### `MaterialSRFS_API`
+`Concrete` · `Steel` · `Masonry` · `Timber`
+
+### `SFRSConcrete_API`
+`DuctileMomentResistingFrame` · `DuctileWallSystem` · `ModeratelyDuctileMomentResistingFrame` · `ModeratelyDuctileShearWall` · `ConventionalConstruction`
+
+### `SFRSSteel_API`
+`DuctileMomentResistingFrame` · `DuctileBracedFrame` · `ModeratelyDuctileMomentResistingFrame` · `ModeratelyDuctileBracedFrame` · `ConventionalConstruction`
+
+### `SFRSMasonry_API` / `SFRSTimber_API`
+`DuctileShearWall` · `ModeratelyDuctileShearWall` · `ConventionalConstruction`
 
 ### `SnowLoadCategory_API`
 Category-based classification (Normal, Exceptional, etc.)
@@ -1758,7 +1860,7 @@ long seismicFamId = client.CreateInformationalElement(new LoadCaseFamily_Seismic
     Name = "SEIS - Seismic EN1998",
     Implantation = new ImplantationSeismicEN1998
     {
-        SpectrumType = SpectrumType_API.Type1,
+        SpectrumType = SpectrumType_API.SPECTRE_DESIGN_1,
         AgRg         = 0.16,  // g
         SoilClass    = SoilClassEN1998_API.B,
         S            = 1.2,
@@ -1768,12 +1870,12 @@ long seismicFamId = client.CreateInformationalElement(new LoadCaseFamily_Seismic
     },
     Structure = new StructureSeismicEN1998
     {
-        ImportanceCategory = ImportanceCategoryEN1998_API.II,
+        ImportanceCategory = ImportanceCategoryEN1998_API.CAT_II,
         CoefGammaI         = 1.0,
         CoefQHoriz         = 3.9,
         CoefQHorizY        = 3.9,
         CoefQVert          = 1.5,
-        DuctilityClass     = DuctilityClassEN1998_API.DCM
+        DuctilityClass     = DuctilityClassEN1998_API.MEDIUM
     },
     Method = new CalculationMethodEN1998
     {
@@ -1785,10 +1887,10 @@ long seismicFamId = client.CreateInformationalElement(new LoadCaseFamily_Seismic
 // Seismic cases in X and Y
 foreach (var (dirChoice, sign) in new[]
 {
-    (DirectionChoiceEN1998_API.X_Direction, SignChoice_API.Positive),
-    (DirectionChoiceEN1998_API.X_Direction, SignChoice_API.Negative),
-    (DirectionChoiceEN1998_API.Y_Direction, SignChoice_API.Positive),
-    (DirectionChoiceEN1998_API.Y_Direction, SignChoice_API.Negative),
+    (DirectionChoiceEN1998_API.X, SignChoice_API.SIGNED_PREPONDERANT_MODE),
+    (DirectionChoiceEN1998_API.X, SignChoice_API.UNSIGNED),
+    (DirectionChoiceEN1998_API.Y, SignChoice_API.SIGNED_PREPONDERANT_MODE),
+    (DirectionChoiceEN1998_API.Y, SignChoice_API.UNSIGNED),
 })
 {
     client.CreateInformationalElement(new LoadCase_SeismicEN_1998_1
@@ -1803,9 +1905,9 @@ foreach (var (dirChoice, sign) in new[]
         },
         Ductility = new DuctilityConfigEN1998
         {
-                    DuctilityDetermination = DuctilityDeterminationEN1998_API.Auto,
-                        DuctilityCoefficient   = 1.0
-                    }
+            DuctilityDetermination = DuctilityDeterminationEN1998_API.Q_IMPOSE,
+            DuctilityCoefficient   = 1.0
+        }
                 });
             }
 
