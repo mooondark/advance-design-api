@@ -1,6 +1,6 @@
-﻿# Advance Design API v1 – Capabilities Summary
+﻿# Advance Design 2027 API v1.27.0 – Capabilities Summary
 
-> **Source:** `swagger.json` (OpenAPI 3.0.4)  
+> **Source:** `swagger.json` (OpenAPI 3.0.4, Advance Design 2027 v1.27.0)  
 > **Main tag:** `Model`  
 > **Base path:** `/api/Model/`  
 
@@ -27,6 +27,8 @@
 | Endpoint | Method | Description |
 |---|---|---|
 | `/api/Model/materials/CreateMaterial` | `POST` | Creates a new material in the current project |
+| `/api/Model/materials/GetListMaterials` | `GET` | Retrieves a list of all material IDs in the project |
+| `/api/Model/materials/GetMaterials` | `POST` | Retrieves material objects by their internal IDs |
 
 **Supported material types:**
 | Type | Description |
@@ -48,6 +50,16 @@
 | Endpoint | Method | Description |
 |---|---|---|
 | `/api/Model/sections/CreateSection` | `POST` | Creates a cross-section by name (e.g. `IPE400`, `HEA200`, `R20*30`) |
+| `/api/Model/sections/GetListSections` | `GET` | Retrieves a list of all section IDs in the project |
+| `/api/Model/sections/GetSections` | `POST` | Retrieves section objects by their internal IDs |
+
+**`Section` object properties:**
+| Property | Type | Description |
+|---|---|---|
+| `Name` | `string` | Section name |
+| `Type` | `SectionType_API` | Section shape type (e.g. `st_I_SYMETRIC`, `st_RECTANGULAR`, `st_CIRCULAR_TUBE`, etc.) |
+| `FamilyCode` | `string?` | Family code |
+| `CatalogName` | `string?` | Catalog name |
 
 ---
 
@@ -229,4 +241,4 @@ Loads are created via `CreateElement` using the following types:
 
 ---
 
-> 📝 **Note:** This document was generated with the assistance of AI. Last updated: 2026-05-05 (swagger.json OpenAPI 3.0.4 v1).
+> 📝 **Note:** This document was generated with the assistance of AI. Last updated: 2026-05-20 (swagger.json OpenAPI 3.0.4, Advance Design 2027 v1.27.0).

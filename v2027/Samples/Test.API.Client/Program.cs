@@ -56,6 +56,7 @@ namespace Test.API.Client
 			  ("Planar Support With Planar Element And Results",                                                 c => Sample_PlanarSupportWithPlanarElementAndResults(c)),
         ("Pylon climatic                                ",                                                 c => Sample_PylonElectricityStructureAndClimaticGeneration(c)),
         ("Planar Wall With Openings (holes test)",                                                       c => Sample_PlanarWallWithOpenings(c)),
+        ("Materials and Sections retrieval: GetListMaterials, GetListSections, GetMaterials, GetSections", c => Sample_MaterialAndSectionRetrieval(c)),
         
       };
 

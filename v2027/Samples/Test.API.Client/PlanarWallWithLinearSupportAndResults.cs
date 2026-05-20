@@ -157,9 +157,36 @@ namespace Test.API.Client
 				idCombo = client.AddCombination(combInput).Data;
 				Console.WriteLine("Create combination ID: " + idCombo.Value.ToString());
 			}
+      // Add 2nd combination
+      {
+        Combination combInput = new Combination();
+        combInput.ECombinationType = ECombinationType.EComboProjectSituationEluStrgeo;
+        combInput.ListCasesCoeffs = new List<EIDDoublePair>
+        {
+          new EIDDoublePair { Key = idDeadCase, Value = 1.0 },
+          new EIDDoublePair { Key = idLiveCase, Value = 1.7 }
+        };
 
-			// --- Launch analysis ---
-			bool bCalculResult = client.LaunchAnalysis().Data;
+        EID idComboNew = client.AddCombination(combInput).Data;
+        Console.WriteLine("Create combination ID: " + idComboNew.Value.ToString());
+      }
+      // Add 3nd combination (with inner EXISTING) combi
+      {
+        Combination combInput = new Combination();
+        combInput.ECombinationType = ECombinationType.EComboProjectSituationEluStrgeo;
+        combInput.ListCasesCoeffs = new List<EIDDoublePair>
+        {
+          new EIDDoublePair { Key = idDeadCase, Value = 1.0 },
+          new EIDDoublePair { Key = idCombo   , Value = 1.25 }
+        };
+
+        EID idComboNew3 = client.AddCombination(combInput).Data;
+        Console.WriteLine("Create combination ID: " + idComboNew3.Value.ToString());
+      }
+
+
+      // --- Launch analysis ---
+      bool bCalculResult = client.LaunchAnalysis().Data;
 			Console.WriteLine("Launch calculation result: " + ((bCalculResult) ? "succeeded" : "failed"));
 
 			if (bCalculResult)

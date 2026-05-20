@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Advance Design V1",
-    "version": "v1"
+    "title": "Advance Design 2027",
+    "description": "Advance Design 2027",
+    "version": "1.27.0"
   },
   "paths": {
     "/api/Model/materials/CreateMaterial": {
@@ -1511,6 +1512,192 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InformationalElementBaseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Model/materials/GetListMaterials": {
+      "get": {
+        "tags": [
+          "Model"
+        ],
+        "summary": "Retrieves a list of all material IDs in the project.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Model/sections/GetListSections": {
+      "get": {
+        "tags": [
+          "Model"
+        ],
+        "summary": "Retrieves a list of all section IDs in the project.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Int64ListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Model/materials/GetMaterials": {
+      "post": {
+        "tags": [
+          "Model"
+        ],
+        "summary": "Retrieves material objects by their internal IDs.",
+        "operationId": "GetMaterials",
+        "requestBody": {
+          "description": "A list of material internal IDs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialListApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialListApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Model/sections/GetSections": {
+      "post": {
+        "tags": [
+          "Model"
+        ],
+        "summary": "Retrieves section objects by their internal IDs.",
+        "operationId": "GetSections",
+        "requestBody": {
+          "description": "A list of section internal IDs.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionListApiResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionListApiResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionListApiResponse"
                 }
               }
             }
@@ -8967,6 +9154,53 @@
         "type": "string",
         "description": "Planar element types<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - isotropic_behavior</b>: isotropic behavior</li>\r\n<li><b>1 - orthotropic_behavior</b>: orthotropic behavior</li>\r\n</ul>\r\n"
       },
+      "MaterialListApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Material"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialSteel"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialReinforcedConcrete"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialWood"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialWoodNorthAmerica"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialRigid"
+                },
+                {
+                  "$ref": "#/components/schemas/MaterialOther"
+                }
+              ],
+              "description": "Base class for all material objects. Requires the `$type` discriminator when serialized for the API."
+            },
+            "description": "The result payload of the operation.\r\nMay be `null` or default when AD.API.Srv.Models.ApiResponseDetails.Success is `false`.",
+            "nullable": true
+          },
+          "details": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiResponseDetails"
+              }
+            ],
+            "description": "response details for API operations, including the actual result data and structured diagnostics.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Standard envelope returned by every API operation.\r\nWraps the actual result together with structured diagnostics\r\n(errors, warnings, informational messages) so that callers –\r\nincluding AI agents – can programmatically inspect the outcome."
+      },
       "MaterialOther": {
         "allOf": [
           {
@@ -11708,6 +11942,67 @@
         "type": "string",
         "description": "Timber SFRS Type for Seismic CBN<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - DuctileShearWall</b>: </li>\r\n<li><b>1 - ModeratelyDuctileShearWall</b>: </li>\r\n<li><b>2 - ConventionalConstruction</b>: </li>\r\n</ul>\r\n"
       },
+      "Section": {
+        "required": [
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string",
+            "description": "Section name\r\n\r\nDefault value: empty string",
+            "default": ""
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SectionType_API"
+              }
+            ],
+            "description": "Section type\r\n\r\nDefault value: SectionType_API.st_UNKNOWN",
+            "default": "st_UNKNOWN"
+          },
+          "familyCode": {
+            "type": "string",
+            "description": "Family code\r\n\r\nDefault value: empty string",
+            "default": "",
+            "nullable": true
+          },
+          "catalogName": {
+            "type": "string",
+            "description": "Catalog name\r\n\r\nDefault value: empty string",
+            "default": "",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SectionListApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Section"
+            },
+            "description": "The result payload of the operation.\r\nMay be `null` or default when AD.API.Srv.Models.ApiResponseDetails.Success is `false`.",
+            "nullable": true
+          },
+          "details": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiResponseDetails"
+              }
+            ],
+            "description": "response details for API operations, including the actual result data and structured diagnostics.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Standard envelope returned by every API operation.\r\nWraps the actual result together with structured diagnostics\r\n(errors, warnings, informational messages) so that callers –\r\nincluding AI agents – can programmatically inspect the outcome."
+      },
       "SectionOffsetOption_API": {
         "enum": [
           "topleft",
@@ -11768,6 +12063,63 @@
         },
         "additionalProperties": false,
         "description": "Section offset style properties"
+      },
+      "SectionType_API": {
+        "enum": [
+          "st_ANGLE",
+          "st_ANGULAR",
+          "st_CIRCULAR",
+          "st_POLYGONAL",
+          "st_RECTANGULAR",
+          "st_SQUARE",
+          "st_TRIANGULAR",
+          "st_T",
+          "st_CIRCULAR_TUBE",
+          "st_RECTANGULAR_TUBE",
+          "st_SQUARE_TUBE",
+          "st_I_DISSYMETRIC",
+          "st_I_SYMETRIC",
+          "st_OBLONG",
+          "st_UNEQUAL_ANGLE",
+          "st_U",
+          "st_USER",
+          "st_RECTANGULAR_CHAMFER",
+          "st_DOUBLE_ANGLE",
+          "st_T_DISSYMETRIC",
+          "st_ASTOR",
+          "st_COMBINED_SECTION",
+          "st_SQUARE_OPEN_TUBE",
+          "st_DOUBLE_ANGLE_DIAGONAL",
+          "st_OVAL_TUBE",
+          "st_TUBE_IN_TUBE",
+          "st_OMEGA",
+          "st_SIGMA",
+          "st_Z",
+          "st_CE",
+          "st_CCF",
+          "st_CEE_ASYM",
+          "st_C_ASYM",
+          "st_L_CF",
+          "st_ZED",
+          "st_ZED_IL",
+          "st_SIGMA_ASYM",
+          "st_SIGMA_IL",
+          "st_ZETA",
+          "st_SPACED_SHAFTS",
+          "st_DOUBLE_CEE_BACK_TO_BACK",
+          "st_DOUBLE_CEE_FRONT_TO_FRONT",
+          "st_DOUBLE_SIGMA_BACK_TO_BACK",
+          "st_DOUBLE_SIGMA_FRONT_TO_FRONT",
+          "st_CEE_DOUBLE_EDGE_FOLD",
+          "st_CEE_DOUBLE_EDGE_FOLD_BACK_TO_BACK",
+          "st_CEE_DOUBLE_EDGE_FOLD_FRONT_TO_FRONT",
+          "st_C_EAVE_CF",
+          "st_CEE_EAVE",
+          "st_cucu",
+          "st_UNKNOWN"
+        ],
+        "type": "string",
+        "description": "Section type<p>Possible values:</p>\r\n<ul>\r\n<li><b>0 - st_ANGLE</b>: Angle section type.</li>\r\n<li><b>1 - st_ANGULAR</b>: Angular section type.</li>\r\n<li><b>2 - st_CIRCULAR</b>: Circular section type.</li>\r\n<li><b>3 - st_POLYGONAL</b>: Polygonal section type.</li>\r\n<li><b>4 - st_RECTANGULAR</b>: Rectangular section type.</li>\r\n<li><b>5 - st_SQUARE</b>: Square section type.</li>\r\n<li><b>6 - st_TRIANGULAR</b>: Triangular section type.</li>\r\n<li><b>7 - st_T</b>: T-shaped section type.</li>\r\n<li><b>8 - st_CIRCULAR_TUBE</b>: Circular tube section type.</li>\r\n<li><b>9 - st_RECTANGULAR_TUBE</b>: Rectangular tube section type.</li>\r\n<li><b>10 - st_SQUARE_TUBE</b>: Square tube section type.</li>\r\n<li><b>11 - st_I_DISSYMETRIC</b>: Dissymmetric I-shaped section type.</li>\r\n<li><b>12 - st_I_SYMETRIC</b>: Symmetric I-shaped section type.</li>\r\n<li><b>13 - st_OBLONG</b>: Oblong section type.</li>\r\n<li><b>14 - st_UNEQUAL_ANGLE</b>: Unequal angle section type.</li>\r\n<li><b>15 - st_U</b>: U-shaped (channel) section type.</li>\r\n<li><b>16 - st_USER</b>: User-defined section type.</li>\r\n<li><b>17 - st_RECTANGULAR_CHAMFER</b>: Rectangular section with chamfer.</li>\r\n<li><b>18 - st_DOUBLE_ANGLE</b>: Double angle section type.</li>\r\n<li><b>19 - st_T_DISSYMETRIC</b>: Dissymmetric T-shaped section type.</li>\r\n<li><b>20 - st_ASTOR</b>: Astor section type.</li>\r\n<li><b>21 - st_COMBINED_SECTION</b>: Combined section type.</li>\r\n<li><b>22 - st_SQUARE_OPEN_TUBE</b>: Square open tube section type.</li>\r\n<li><b>23 - st_DOUBLE_ANGLE_DIAGONAL</b>: Double angle diagonal section type.</li>\r\n<li><b>24 - st_OVAL_TUBE</b>: Oval tube section type.</li>\r\n<li><b>25 - st_TUBE_IN_TUBE</b>: Tube in tube section type.</li>\r\n<li><b>26 - st_OMEGA</b>: Omega-shaped section type.</li>\r\n<li><b>27 - st_SIGMA</b>: Sigma-shaped section type.</li>\r\n<li><b>28 - st_Z</b>: Z-shaped section type.</li>\r\n<li><b>29 - st_CE</b>: CE section type.</li>\r\n<li><b>30 - st_CCF</b>: CCF section type.</li>\r\n<li><b>31 - st_CEE_ASYM</b>: Asymmetric CEE section type.</li>\r\n<li><b>32 - st_C_ASYM</b>: Asymmetric C section type.</li>\r\n<li><b>33 - st_L_CF</b>: L cold-formed section type.</li>\r\n<li><b>34 - st_ZED</b>: Zed section type.</li>\r\n<li><b>35 - st_ZED_IL</b>: Zed IL section type.</li>\r\n<li><b>36 - st_SIGMA_ASYM</b>: Asymmetric sigma section type.</li>\r\n<li><b>37 - st_SIGMA_IL</b>: Sigma IL section type.</li>\r\n<li><b>38 - st_ZETA</b>: Zeta section type.</li>\r\n<li><b>39 - st_SPACED_SHAFTS</b>: Spaced shafts section type.</li>\r\n<li><b>40 - st_DOUBLE_CEE_BACK_TO_BACK</b>: Double CEE back to back section type.</li>\r\n<li><b>41 - st_DOUBLE_CEE_FRONT_TO_FRONT</b>: Double CEE front to front section type.</li>\r\n<li><b>42 - st_DOUBLE_SIGMA_BACK_TO_BACK</b>: Double sigma back to back section type.</li>\r\n<li><b>43 - st_DOUBLE_SIGMA_FRONT_TO_FRONT</b>: Double sigma front to front section type.</li>\r\n<li><b>44 - st_CEE_DOUBLE_EDGE_FOLD</b>: CEE with double edge fold section type.</li>\r\n<li><b>45 - st_CEE_DOUBLE_EDGE_FOLD_BACK_TO_BACK</b>: CEE with double edge fold back to back section type.</li>\r\n<li><b>46 - st_CEE_DOUBLE_EDGE_FOLD_FRONT_TO_FRONT</b>: CEE with double edge fold front to front section type.</li>\r\n<li><b>47 - st_C_EAVE_CF</b>: C eave cold-formed section type.</li>\r\n<li><b>48 - st_CEE_EAVE</b>: CEE eave section type.</li>\r\n<li><b>49 - st_cucu</b>: CUCU section type.</li>\r\n<li><b>-1 - st_UNKNOWN</b>: Unknown section type.</li>\r\n</ul>\r\n"
       },
       "SeismicCategory_API": {
         "enum": [

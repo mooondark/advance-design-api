@@ -1,4 +1,4 @@
-﻿# Advance Design API v1 — Developer Reference (C#)
+﻿# Advance Design 2027 API v1.27.0 — Developer Reference (C#)
 
 ---
 
@@ -43,7 +43,7 @@
 
 ---
 
-> 📝 **Last updated:** 2026-05-05 (swagger.json OpenAPI 3.0.4 v1)
+> 📝 **Last updated:** 2026-05-20 (swagger.json OpenAPI 3.0.4, Advance Design 2027 v1.27.0)
 
 > ⚠️ **Breaking changes since last release:**
 > - **`UserName` renamed to `UserID`** in `ElementBase` (and `InformationalElementBase`). Any serialized JSON using `"userName"` must be updated to `"userID"`.
@@ -238,6 +238,42 @@ Creates a new material in the current project.
 
 **Returns:** `EIDApiResponse` · `Data.Value` contains the new material's internal ID (`long`).
 
+---
+
+#### `GET /api/Model/materials/GetListMaterials`
+
+Retrieves a list of all material IDs in the current project.
+
+**Returns:** `Int64ListApiResponse` · `Data` contains the list of material internal IDs.
+
+```csharp
+Int64ListApiResponse matIds = client.GetListMaterials();
+foreach (long id in matIds.Data)
+    Console.WriteLine($"Material ID: {id}");
+```
+
+---
+
+#### `POST /api/Model/materials/GetMaterials`
+
+Retrieves fully populated material objects by their internal IDs.
+
+| Parameter | Location | Type | Required | Description |
+|---|---|---|---|---|
+| *(body)* | body | `long[]` | No | Array of material internal IDs |
+
+**Returns:** `MaterialListApiResponse` · `Data` contains polymorphic `Material` objects (may be `MaterialSteel`, `MaterialReinforcedConcrete`, etc.).
+
+```csharp
+var matIds = new List<long> { 1, 2, 3 };
+MaterialListApiResponse mats = client.GetMaterials(matIds);
+foreach (var mat in mats.Data)
+{
+    if (mat is MaterialSteel steel)
+        Console.WriteLine($"{steel.Name}: E={steel.E}");
+}
+```
+
 **Supported concrete types:**
 
 | C# class | `$type` value | Description |
@@ -267,6 +303,37 @@ Creates a new section by name (looked up from the Advance Design section databas
 ```csharp
 EIDApiResponse sec = client.CreateSection("IPE300");
 long sectionId = sec.Data.Value;
+```
+
+---
+
+#### `GET /api/Model/sections/GetListSections`
+
+Retrieves a list of all section IDs in the current project.
+
+**Returns:** `Int64ListApiResponse` · `Data` contains the list of section internal IDs.
+
+```csharp
+Int64ListApiResponse secIds = client.GetListSections();
+```
+
+---
+
+#### `POST /api/Model/sections/GetSections`
+
+Retrieves fully populated section objects by their internal IDs.
+
+| Parameter | Location | Type | Required | Description |
+|---|---|---|---|---|
+| *(body)* | body | `long[]` | No | Array of section internal IDs |
+
+**Returns:** `SectionListApiResponse` · `Data` contains `Section` objects with `Name`, `Type` (`SectionType_API`), `FamilyCode`, and `CatalogName`.
+
+```csharp
+var secIds = new List<long> { 1, 2 };
+SectionListApiResponse secs = client.GetSections(secIds);
+foreach (var s in secs.Data)
+    Console.WriteLine($"{s.Name} (type: {s.Type})");
 ```
 
 ---
