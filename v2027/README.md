@@ -1,4 +1,4 @@
-﻿# Advance Design API 2027 BETA
+﻿# Advance Design API 2027
 
 The **Advance Design API** is a REST API that allows you to automate [Advance Design](https://www.graitec.com/advance-design/) operations programmatically — create projects, define materials, sections and elements, apply loads, run analyses and retrieve results — all without opening the Advance Design UI.
 

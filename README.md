@@ -16,7 +16,7 @@ The **Advance Design API** exposes a REST/HTTP interface that allows external ap
 
 | Version | Description | Link |
 |---|---|---|
-| **2027 BETA** | OpenAPI schema, documentation, C# samples and Python client | [v2027/README.md](v2027/README.md) |
+| **2027 ** | OpenAPI schema, documentation, C# samples and Python client | [v2027/README.md](v2027/README.md) |
 
 ---
 
